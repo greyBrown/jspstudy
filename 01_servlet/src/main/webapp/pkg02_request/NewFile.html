@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- <a> 태그 요청 -->
+<div>
+<a id="link" data-number="10" data-number2="1.5">요청</a>
+</div>
+
+<script>
+var link = document.getElementById('link');
+
+link.href = '/servlet/request?number=' + link.dataset.number + '&number2=' + link.dataset.number2;
+
+//number2를 주석처리 -> number2에 아무런 값을 주지 않을 때 null 값이 들어옴
+//null 값을 파싱할수 없으니 예외가 던져짐.(500번대 오류가 발생)
+
+// Number1 ,2 파라미터가 없을 경우를 모두 예외처리하면 '/servlet/request'; 이렇게 파라미터가 없이 넘어가도 오류가 나지 않는다
+// isEmpty()를 통해 파라미터의 값이 없는 경우(빈문자열)을 처리하면 오류가 나지 않는다.
+
+</script>
+
+<!-- JavaScript : location 객체 요청 -->
+<div data-number="10">
+  <button type ="button" id="btn" data-number2="1.5">요청</button>
+</div>
+<script>
+// 클릭이벤트작업, 클릭이벤트에location을이용한 이동작업, 데이터추출작업
+// jQuery 이용하기
+ let $btn = $('#btn'); // 성능을 위해 이렇게 btn을 따로 빼줄 수 있음. 명시적으로 제이쿼리임을 알려주고자 $btn 이렇게 쓰기도 함.(그냥 btn 가능한데 $ 붙인거)
+    $btn.on('click', (evt)=>{
+      let number = $btn.parent().data('number');//부모(div)의 data-number를 가져옮
+      let number2 = $btn.data('number2');
+      location.href = `/servlet/request?number=${number}&number2=${number2}`;
+    })
+
+</script>
+
+<!-- <form> 태그 요청 -->
+  <form id="frm" 
+        method="POST" 
+        action="/servlet/request">
+  <div class="inp-wrap">
+  <label for="name">이름</label>           <!-- label의 for는 id 였죠! -->
+  <input type="text" name="name" id="name">   
+  <!-- name 속성이 파라미터이다!! + name(back)이랑 id(front)는 그냥 같은 값 주면 됩니당 -->
+  </div> 
+  <div class="inp-wrap">
+  <label for="email">이메일</label>
+  <input type="text" name="email" id="email">
+  </div> 
+  <div class="inp-wrap">
+  <input type="radio" name="gender" id="none" value="none" checked>
+  <label for="none">선택안함</label>
+   <input type="radio" name="gender" id="man" value="man">
+  <label for="man">남자</label>
+   <input type="radio" name="gender" id="woman" value="woman">
+  <label for="woman">여자</label>
+  </div> 
+  <div class="inp-wrap">
+  <input type="checkbox" name="hobbies" id="game" value="game">
+  <label for="game">게임</label>
+    <input type="checkbox" name="hobbies" id="cook" value="cook">
+  <label for="cook">요리</label>
+    <input type="checkbox" name="hobbies" id="travel" value="travel">
+  <label for="travel">여행</label>
+  </div>
+  <div class="inp-wrap">
+    <select name="mobile">
+      <option value="1">SKT</option>
+      <option value="2">KT</option>
+      <option value="3">LGU+</option>
+    </select>
+    <input type="text" name="mobile">
+  </div>
+  <div class="btn-wrap">
+  <button type="submit">전송</button>
+  <button type="reset">다시입력</button>
+  </div>
+  </form>
+  <script>
+  
+  document.getElementById('frm').addEventListener('submit', (evt)=>{
+	  
+	// 필수 검사
+      let name = document.getElementById('name');
+      if(name.value === ''){
+        alert('이름은 필수입니다.');
+        name.focus();
+        evt.preventDefault();  // submit 방지
+        return;                // 함수 종료
+      }
+      
+      // 정규식 검사
+      let regEmail = /^[A-Za-z0-9-_]{2,}@[A-Za-z0-9]{2,}(\.[A-Za-z]{2,6}){1,2}$/;
+      let email = document.getElementById('email');
+      if(regEmail.test(email.value) === false){
+        alert('이메일의 형식을 확인하세요.');
+        email.focus();
+        evt.preventDefault();
+        return;
+      }
+    })
+	  
+
+  </script>
+  
+  
+  
+   
+
+
+</body>
+</html>
