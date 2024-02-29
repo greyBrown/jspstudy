@@ -31,18 +31,19 @@ public class ReadCookie extends HttpServlet {
       String cookieValue = null;
       String cookiePath = null;
       int cookieExpire = 0;
+      out.println("<!DOCTYPE html>");
+      out.println("<html lang=\"ko\">");
+      out.println("<head>");
+      out.println("<meta charset=\"UTF-8\">");
+      out.println("<title>Insert title here</title>");
+      out.println("</head>");
+      out.println("<body>");
+      
       for(Cookie cookie : cookies) {
         cookieName = cookie.getName();
         cookieValue = URLDecoder.decode(cookie.getValue(), "UTF-8");
         cookiePath = cookie.getPath();
         cookieExpire = cookie.getMaxAge();
-        out.println("<!DOCTYPE html>");
-        out.println("<html lang=\"ko\">");
-        out.println("<head>");
-        out.println("<meta charset=\"UTF-8\">");
-        out.println("<title>Insert title here</title>");
-        out.println("</head>");
-        out.println("<body>");
         out.println("<div>쿠키이름 : " + cookieName + "</div>");
         out.println("<div>쿠키값 : " + cookieValue + "</div>");
         out.println("<div>쿠키경로 : " + cookiePath + "</div>");
