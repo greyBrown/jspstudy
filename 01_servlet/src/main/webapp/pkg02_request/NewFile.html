@@ -17,6 +17,7 @@ var link = document.getElementById('link');
 
 link.href = '/servlet/request?number=' + link.dataset.number + '&number2=' + link.dataset.number2;
 
+
 //number2를 주석처리 -> number2에 아무런 값을 주지 않을 때 null 값이 들어옴
 //null 값을 파싱할수 없으니 예외가 던져짐.(500번대 오류가 발생)
 

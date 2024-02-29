@@ -32,10 +32,11 @@ public class MyRequest extends HttpServlet {
 	  
 	  /* Optional<T> 클래스를 이용한 null&빈문자열 처리 */ //이걸 많이 활용하는게 좋음. 이걸 사용하는 클래스들이 점점 나오기 때문
 	  String strNumber2 = request.getParameter("number2");
-	  Optional<String> opt = Optional.ofNullable(strNumber2);
-	  double number2 = Double.parseDouble(opt.orElse("0").isEmpty() ? "0" : strNumber2);
+    Optional<String> opt = Optional.ofNullable(strNumber2);
+    double number2 = Double.parseDouble(opt.orElse("0").isEmpty() ? "0" : opt.orElse("0"));
+    System.out.println(number2);
 	  // -> 만약 strNumber2가 null 이라면 0을 꺼내라. + 삼향연산자로 빈문자열처리
-	  System.out.println(number2);
+	 
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
