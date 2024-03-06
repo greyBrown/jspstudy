@@ -1,3 +1,5 @@
+<%@page import="pkg05_JSTL.Post"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.sql.Array"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -42,7 +44,18 @@
 <c:forEach var="hobby" items="${hobbies}" varStatus="vs">
 <div>${hobby}/${vs.index}/${vs.count}</div>
 </c:forEach>
+<%List <Post> posts = Arrays.asList(new Post("aa1","aa2","aa3"), new Post("bb1","bb2","bb3"), new Post("cc1","cc2","cc3")); 
+request.setAttribute("posts", posts);
+%>
 
+<c:forEach var="post" items="${requestScope.posts}" varStatus="vs">
+<div>
+<span>${vs.count}</span>
+<span>${post.title}</span>
+<span>${post.reporter}</span>
+<span>${post.createdAt}</span>
+</div>
+</c:forEach>
 
 </body>
 </html>
