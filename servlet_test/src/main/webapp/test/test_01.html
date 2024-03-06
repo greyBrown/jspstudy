@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+ <form id="frm" 
+        method="GET" 
+        action="/test/test01">
+아이디
+<div>
+<input type="text" id="id" name="id">@naver.com
+</div>
+비밀번호
+<div>
+<input type="password" id="pw" name="pw">
+</div>
+비밀번호 재확인
+<div>
+<input type="password" id="check" name="check">
+</div>
+이름
+<div>
+<input type="text" id="name" name="name">
+</div>
+생년월일
+<div>
+<input type="text"  id="birth" name="birth" placeholder="년(4자)">
+<select name="month" >
+        <option value="none">월</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+</select>
+<input type="text"  id="day" name="day" placeholder="일">
+</div>
+성별
+<div>
+<select name="gender" value="none">
+   <option value="여자">여자</option>
+   <option value="남자">남자</option>
+</select>
+  </div> 
+본인확인이메일(선택)
+<div>
+<input type="text" id="email" name="email" placeholder="선택입력">
+</div>
+휴대전화
+<div>
+<select name="phone">
+   <option selected value="+82">대한민국 +82</option>
+   <option>그외 </option>
+</select>
+<input type="text" id = phonedd  name = phonedd placeholder="전화번호입력">
+<button type="submit">인증번호받기</button>
+<div>
+<input type="text" placeholder="인증번호 입력하세요">
+</div>
+</div>
+<button type="submit">가입하기</button>
+
+</form>
+
+
+
+
+
+</body>
+</html>

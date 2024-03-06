@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+#content {
+height: 100px;
+margin: 10px;
+text-align: left;
+}
+</style>
+</head>
+<body>
+
+<form id="frm" 
+        method="GET" 
+        action="/test/test04">
+<div>
+작성자
+<input type="text" name="author">
+</div>
+<div>
+제목
+<input type="text" name="title">
+</div>
+<div>
+<input type="text" id="content" name="content" placeholder="내용">
+</div>
+<button type="submit">작성완료</button>
+<button type="reset">초기화</button>
+</form>
+
+</body>
+</html>
