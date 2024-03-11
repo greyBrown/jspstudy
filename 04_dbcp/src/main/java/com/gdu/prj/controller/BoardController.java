@@ -25,8 +25,7 @@ public class BoardController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  
-	  // 요청 UTF-8 인코딩
-	  request.setCharacterEncoding("UTF-8");
+
 	  
 	  // 요청 주소 확인
 	  String requestURI = request.getRequestURI();             /*http://localhost:8080/dbcp/board.list.brd*/

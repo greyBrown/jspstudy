@@ -1,12 +1,14 @@
 package com.gdu.prj.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.gdu.prj.common.ActionForward;
 import com.gdu.prj.dao.BoardDao;
 import com.gdu.prj.dao.BoardDaoImpl;
 import com.gdu.prj.dto.BoardDto;
+import com.gdu.prj.utils.MyPageUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -14,6 +16,9 @@ public class BoardServiceImpl implements BoardService {
   
   // service 는 dao 를 호출한다.
   private BoardDao boardDao = BoardDaoImpl.getInstance();
+  
+  // 목록 보기는 MyPageUtils 객체가 필요하다.
+  private MyPageUtils myPageUtils = new MyPageUtils();
 
   @Override
   public ActionForward addBoard(HttpServletRequest request) {
@@ -37,12 +42,31 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public ActionForward getBoardList(HttpServletRequest request) {
-    int boardCount = boardDao.getBoardCount();
-    List<BoardDto> boardList = boardDao.selectBoardList(null);
-    request.setAttribute("boardCount", boardCount);
+    
+    // 전체 게시글 개수
+    int total = boardDao.getBoardCount();
+    
+    // 한 페이지에 표시할 게시글 개수
+    Optional<String> optDisplay = Optional.ofNullable(request.getParameter("display"));
+    int display = Integer.parseInt(optDisplay.orElse("20"));
+    
+    // 현재 페이지 번호
+    Optional<String> optPage = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(optPage.orElse("1"));
+    
+    // 페이징 처리에 필요한 변수 값 계산하기
+    myPageUtils.setPaging(total, display, page);
+    
+    // 목록을 가져올 때 필요한 변수를 Map 에 저장함
+    Map<String, Object> params = Map.of("begin", myPageUtils.getBegin(), 
+                                          "end", myPageUtils.getEnd()); 
+    
+    // 목록 가져오기
+    List<BoardDto> boardList = boardDao.selectBoardList(params);            // 이제 게시글이 20개씩 뜬다! 아무런 파라미터가 없어도 opt 로 20으로 설정. ?page=3&display=5 등으로 접근할 수 있다 오오오오오 
+                                                                            // 그때 콘솔에 파라미터 뜨게 작업해놔서 콘솔에 파라미터 뭐 넣었는지 뜬다 오오오ㅗ
+    request.setAttribute("total", total);
     request.setAttribute("boardList", boardList);
     return new ActionForward("/board/list.jsp", false);
-    
   }
 
   @Override

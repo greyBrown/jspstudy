@@ -119,12 +119,18 @@ public class BoardDaoImpl implements BoardDao {
   }
   
   @Override
-  public List<BoardDto> selectBoardList(Map<String, Object> map) {          // 시간상 페이징처리는 없는 목록보기로 일단 구현하겠습니다.
+  public List<BoardDto> selectBoardList(Map<String, Object> params) {   
     List<BoardDto> boardList = new ArrayList<>();
     try {
       con = dataSource.getConnection();
-      String sql = "SELECT BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT FROM BOARD_T ORDER BY BOARD_NO DESC";
+      String sql = "SELECT BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT"
+                 + "  FROM (SELECT ROW_NUMBER() OVER (ORDER BY BOARD_NO DESC) AS RN, BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT " // 이 자리가 정렬 자리임.  네이버처럼 변수로 처리할 수도 있죠.
+                 + "          FROM BOARD_T)"
+                 + "WHERE RN BETWEEN ? AND ?";
       ps = con.prepareStatement(sql);
+      ps.setInt(1, (int)params.get("begin"));   // MAP에 Object 로 저장되어 있으니까 int 로 꺼낼 때 다운캐스팅 해줘야함.
+      ps.setInt(2, (int)params.get("end"));   
+      
       rs = ps.executeQuery();
       while(rs.next()) {
         BoardDto board = BoardDto.builder()
