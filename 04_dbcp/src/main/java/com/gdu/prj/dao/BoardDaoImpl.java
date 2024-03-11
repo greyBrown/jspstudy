@@ -115,7 +115,7 @@ public class BoardDaoImpl implements BoardDao {
     } finally {
       close();
     }
-    return deleteCount;
+    return deleteCount; 
   }
   
   @Override
@@ -124,9 +124,9 @@ public class BoardDaoImpl implements BoardDao {
     try {
       con = dataSource.getConnection();
       String sql = "SELECT BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT"
-                 + "  FROM (SELECT ROW_NUMBER() OVER (ORDER BY BOARD_NO DESC) AS RN, BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT " // 이 자리가 정렬 자리임.  네이버처럼 변수로 처리할 수도 있죠.
+                 + "  FROM (SELECT ROW_NUMBER() OVER (ORDER BY BOARD_NO " + params.get("sort") +") AS RN, BOARD_NO, TITLE, CONTENTS, MODIFIED_AT, CREATED_AT " // 이 자리가 정렬 자리임.  네이버처럼 변수로 처리할 수도 있죠.
                  + "          FROM BOARD_T)"
-                 + "WHERE RN BETWEEN ? AND ?";
+                 + "WHERE RN BETWEEN ? AND ?"; //지금은 자바에 쌩으로 썼지만 원래 쿼리에서 돌려보고 잘되면 컨브컨브합니다
       ps = con.prepareStatement(sql);
       ps.setInt(1, (int)params.get("begin"));   // MAP에 Object 로 저장되어 있으니까 int 로 꺼낼 때 다운캐스팅 해줘야함.
       ps.setInt(2, (int)params.get("end"));   
