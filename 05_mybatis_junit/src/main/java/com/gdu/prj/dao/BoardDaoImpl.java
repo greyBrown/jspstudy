@@ -40,8 +40,8 @@ public class BoardDaoImpl implements BoardDao {
   public int insertBoard(BoardDto board) {
     SqlSession sqlSession = factory.openSession(false); // autoCommit을 하지 않는다.
     int insertCount = sqlSession.insert("com.gdu.prj.dao.board_t.insertBoard", board);  //마침표로 구분해준다. (경로.메소드)
-    if(insertCount == 1) {
-      sqlSession.commit();
+    if(insertCount == 1) {      //사실 이 메소드 이름...(insert) 여기다가 update delete 써도 오류 안난다. 하지만 사람이 엄청 헷갈리니까 똑바로 적기~~
+      sqlSession.commit();      //select는 아님! select라고 해야함.
     }
     sqlSession.close();
     return insertCount;
@@ -51,7 +51,7 @@ public class BoardDaoImpl implements BoardDao {
   public int updateBoard(BoardDto board) {
     SqlSession sqlSession = factory.openSession(false);
     int updateCount = sqlSession.update("com.gdu.prj.dao.board_t.updateBoard", board);
-    if(updateCount != 0) {
+    if(updateCount ==1) {
       sqlSession.commit();
     }
     sqlSession.close();
@@ -62,7 +62,7 @@ public class BoardDaoImpl implements BoardDao {
   public int deleteBoard(int board_no) {
     SqlSession sqlSession = factory.openSession(false);
     int deleteCount = sqlSession.delete("com.gdu.prj.dao.board_t.deleteBoard", board_no);
-    if(deleteCount != 0) {
+    if(deleteCount == 1) {
       sqlSession.commit();
     }
     sqlSession.close();
@@ -81,13 +81,19 @@ public class BoardDaoImpl implements BoardDao {
   @Override
   public int getBoardCount() {
 
-    return 0;
+    SqlSession sqlSession = factory.openSession();
+    int total = sqlSession.selectOne("com.gdu.prj.dao.board_t.getBoardCount");
+    sqlSession.close();
+    return total;
   }
 
   @Override
   public BoardDto selectBoardByNo(int board_no) {
 
-    return null;
+    SqlSession sqlSession = factory.openSession();
+    BoardDto board = sqlSession.selectOne("com.gdu.prj.dao.board_t.selectBoardByNo", board_no);
+    sqlSession.close();
+    return board;
   }
 
 }
